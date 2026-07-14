@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment": "Hook stubs for the assembly line. Wire real commands per consuming project. Deterministic gates belong here (not in prose).",
+  "_docs": "See docs/agent/README.md (ops stage) and .agent/project_config.md (CI command).",
+  "hooks": {
+    "_comment_pretooluse": "Example: block push/PR unless the pre-PR CI script passed. Replace the command with the project CI wrapper in scripts/.",
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "_intent": "Guard git push / gh pr create behind pre-pr-check. Implement in the consuming project.",
+        "hooks": []
+      }
+    ],
+    "_comment_stop": "Example: remind to update .agent/workflow_state.md at session end.",
+    "Stop": [
+      {
+        "_intent": "Ensure workflow_state.md was updated before ending a substantive session.",
+        "hooks": []
+      }
+    ]
+  }
+}

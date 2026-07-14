@@ -1,0 +1,25 @@
+---
+description: Session protocol for the agent assembly line (start/end, WIP=1, remediation cap). Always applied.
+alwaysApply: true
+---
+
+# Session Rule (Cursor)
+
+The process is defined in `docs/agent/` — this rule only enforces session start/end. Do not restate the pipeline here.
+
+## Start
+
+1. Read `.agent/project_config.md`, then `.agent/workflow_state.md`.
+2. If either is missing or unreadable, stop and ask the user.
+3. If a locked slice has an open blocker, report it and ask before proceeding.
+
+## During
+
+- **WIP = 1.** Never lock a second slice while one is active and not `done`.
+- Follow `docs/agent/README.md` (stages) and `docs/agent/classes.md` (weight gates).
+- Remediation cap is **3**, then human. Never self-approve a `write-security` design.
+- Out-of-scope work goes to `.agent/follow-ups/`.
+
+## End
+
+Update `.agent/workflow_state.md` per `docs/agent/schemas/workflow_state.md`.

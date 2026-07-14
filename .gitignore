@@ -1,0 +1,25 @@
+# Volatile session memory — never commit
+.agent/workflow_state.md
+**/.agent/workflow_state.md
+
+# Scratch / experiments
+.agent/scratch/
+**/.agent/scratch/
+.agent/_imports/*
+!**/.agent/_imports/.gitkeep
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Dependency / build artifacts (consuming projects)
+node_modules/
+dist/
+.next/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
