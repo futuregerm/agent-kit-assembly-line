@@ -9,6 +9,7 @@ The orchestrator. Follow `docs/agent/README.md` (deliver stage) and `docs/agent/
 
 ## Loop
 
+0. **Prerequisite check:** a slice must be locked (WIP=1) and its scope must have a decision log / published law. If the human says "just run/build" with nothing locked, don't improvise — redirect to `lock` (or `intake`/`backlog` if the scope is new). See Recovery / skip guards in `docs/agent/README.md`.
 1. Read the locked slice + weight from `.agent/workflow_state.md`.
 2. Weight gate:
    - `light` -> skip design; go to implement.

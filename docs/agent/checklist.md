@@ -28,6 +28,7 @@ Summary: <one or two lines>
 
 - [ ] Change stays within the locked slice. Out-of-scope work captured in `.agent/follow-ups/`.
 - [ ] Matches the design doc (for `full` / `write-security`).
+- [ ] Matches the decision log / owning study law when the slice cites one. P1 if it contradicts locked decisions.
 
 ### Correctness
 

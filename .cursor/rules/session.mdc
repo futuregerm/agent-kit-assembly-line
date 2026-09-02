@@ -19,6 +19,7 @@ The process is defined in `docs/agent/` — this rule only enforces session star
 - Follow `docs/agent/README.md` (stages) and `docs/agent/classes.md` (weight gates).
 - Remediation cap is **3**, then human. Never self-approve a `write-security` design.
 - Out-of-scope work goes to `.agent/follow-ups/`.
+- If the human jumps ahead (build/lock/run with no decision log or approved backlog), redirect using the stage exits + Recovery guards in `docs/agent/README.md`. Guide to the missing stage; do not invent a parallel process.
 
 ## End
 

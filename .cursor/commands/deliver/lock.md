@@ -7,5 +7,6 @@ Follow `.claude/skills/lock/SKILL.md` and `docs/agent/README.md` (deliver stage)
 Quick path:
 1. Read `.agent/workflow_state.md`.
 2. If a slice is locked and not `done`, refuse and report it.
-3. Set the chosen slice active (weight + spec path), status `ready`.
-4. Recommend `run`.
+3. Prerequisite check: new scope with no decision log / approved backlog → refuse, name the missing stage (`intake`/`backlog`). Existing published law counts as the log. See Recovery in `docs/agent/README.md`.
+4. Set the chosen slice active (weight + spec path), status `ready`.
+5. Recommend `run`.

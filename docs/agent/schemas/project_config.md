@@ -26,6 +26,20 @@ This is where a consuming project injects its **domain and limits**. The kit shi
 4. .agent/workflow_state.md
 5. code (HEAD)
 
+## Domain docs on commit (optional)
+
+When a slice is review-approved and at commit prep (same commit when possible):
+
+1. If the slice locked a **product / contract / identity** decision, update the **one owning published doc** under `docs/` (a few lines, not the full design).
+2. Designs (`.agent/designs/`), Notion, and `workflow_state` **point** to that doc — they are not a second SSOT.
+3. **Skip** when the slice is pure test/refactor with no meaning change.
+4. Prefer one short subsection or decision-log row over rewriting whole articles.
+
+**Owner map (fill per project):**
+
+- <domain area> -> <owning docs/ page>
+- <domain area> -> <owning docs/ page>
+
 ## Limits
 
 | Rule | Value |
@@ -58,3 +72,4 @@ This is where a consuming project injects its **domain and limits**. The kit shi
 
 - The kit never hardcodes these values; it reads them here.
 - `Limits` defaults (WIP=1, remediation=3) match the constitution — change per project only with intent.
+- **Domain docs on commit** is optional per project; when used, the `commit` stage and the review checklist enforce it. The owner map stays project-local (the kit ships the pattern, not the mappings).

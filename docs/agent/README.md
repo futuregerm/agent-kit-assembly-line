@@ -9,7 +9,7 @@ This is the **single source of truth** for the agent process. Every command, ski
 ```text
 discover/intake -> discover/backlog
     -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
-    -> ops/commit   (x N slices)
+    -> ops/commit   (docs-on-commit, x N slices)
     -> ops/ship
 ```
 
@@ -25,7 +25,7 @@ flowchart TD
   human -->|approved_or_not_required| impl
   impl --> rev[review]
   rev -->|fix_le_3| impl
-  rev -->|ok| commit[commit]
+  rev -->|ok| commit[commit_docs]
   commit --> more{more_slices}
   more -->|yes| lock
   more -->|no| ship[ship]
@@ -64,8 +64,42 @@ flowchart TD
 
 | Step | Input | Output | Notes |
 |------|-------|--------|-------|
-| `commit` | Approved slice | One commit | Auto-commit OFF by default; prepare + wait unless told to commit. |
+| `commit` | Approved slice | One commit | Auto-commit OFF by default; prepare + wait unless told to commit. **Docs-on-commit (optional per project):** if the slice locked product/contract/identity meaning and the project defines an owner map, update the one owning `docs/` page in the same commit. |
 | `ship` | Branch with N commits | Pushed branch + PR | Runs CI gate first. Only after CI passes. |
+
+---
+
+## Stage exits (role handoffs)
+
+Each stage owns a **role** and must leave a **required artifact** before the next stage begins. Human gates are about intent, not exact phrasing.
+
+| Role | Stage | Required exit | Human gate |
+|------|-------|---------------|------------|
+| Analyst | `intake` | Decision log: headline question, locked rules, explicit out-of-scope | Approve decisions -> then backlog |
+| Planner | `backlog` | Thin slices, each with Done when / Depends on / Weight / owning decision-log section | Approve card list -> then lock |
+| Architect | `run` (`full` / `write-security`) | Design doc in `.agent/designs/` | write-security stop (mandatory) |
+| Dev | `run` -> implement | Code + tests for one locked slice | — |
+| Reviewer | `run` -> review | Verdict per `checklist.md`, judged against slice AC **and** decision log / owning docs | Fix <= 3 then human |
+| Documenter | `commit` | Owning `docs/` page updated when product/contract/identity changed (docs-on-commit, if the project uses it) | — |
+
+Docs-on-commit is the **documenter** exit — it lives inside `commit`. Do not add a separate documentation stage after `ship`.
+
+---
+
+## Recovery / skip guards
+
+The line should **guide**, not require memorized phrases. If the human jumps ahead, the agent detects the missing exit and offers the next role step (one question at a time) rather than silently proceeding.
+
+| Human skips… | Agent response |
+|--------------|----------------|
+| Decision log, jumps to backlog | Run analyst first: "No decision log yet — headline question?" |
+| Decision log, jumps to lock / build | Refuse lock/run for a **new** scope; start intake. If the scope already has published law, treat that as the decision log and proceed. |
+| Backlog approval, locks anyway | Confirm a thin card list + human OK exists; else run backlog |
+| Design for `write-security` | Existing stop — show design, wait for approval |
+| Docs-on-commit | Reviewer flags P1 / `commit` catches it |
+| Wrong stage mid-chat | Session start reads `workflow_state`; reply with **Next 3 actions** and ask whether to continue or change course |
+
+**Default: guide and wait.** Hard-refuse only when proceeding would burn WIP=1 or skip a `write-security` gate. Intent-based approval counts — exact gate phrases are not required. Recovery lives inside `intake` / `lock` / `run`; do not add a separate coach agent or persona files.
 
 ---
 

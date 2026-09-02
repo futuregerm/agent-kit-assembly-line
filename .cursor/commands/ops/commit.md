@@ -6,6 +6,7 @@ Follow `.claude/skills/commit/SKILL.md` and `docs/agent/README.md` (ops stage). 
 
 Quick path:
 1. Confirm reviewer `Approved? yes` (no open P0/P1).
-2. Stage only this slice's files.
-3. Draft a short functionality-level message.
-4. Present staged diff + message and wait, unless the user said "commit"/"ship it". Never push here.
+2. Docs on commit (if the project uses it): if the slice locked product/contract/identity meaning, update the owning `docs/` page and stage it too (see SKILL step 2 + owner map in `.agent/project_config.md`).
+3. Stage only this slice's files.
+4. Draft a short functionality-level message.
+5. Present staged diff + message and wait, unless the user said "commit"/"ship it". Never push here.
