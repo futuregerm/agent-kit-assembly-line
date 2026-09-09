@@ -1,6 +1,7 @@
 ---
 name: run
 description: Orchestrate the build pipeline for the locked slice - architect (if full/write-security) then implementer then reviewer, with a max 3 remediation cycles. Enforces the write-security human gate. Use after a slice is locked.
+disable-model-invocation: true
 ---
 
 # run

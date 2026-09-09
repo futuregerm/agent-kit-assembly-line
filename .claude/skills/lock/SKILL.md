@@ -1,6 +1,7 @@
 ---
 name: lock
 description: Lock exactly one slice as the active work item (WIP=1) and record it in workflow_state. Refuses if another slice is already locked and not done. Use before run.
+disable-model-invocation: true
 ---
 
 # lock

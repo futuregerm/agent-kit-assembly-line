@@ -48,7 +48,7 @@ discover/intake -> discover/backlog
 ## Adapter DRY rule
 
 - Full stage prose: **only** in `docs/agent/`.
-- `.claude/skills/*` and `.cursor/commands/*`: short wrappers that say "follow `docs/agent/<x>` and the matching skill."
+- `.claude/skills/*/SKILL.md`: short entrypoints (read by Cursor **and** Claude) that say "follow `docs/agent/<x>`." Set `disable-model-invocation: true` for explicit `/`-trigger-only stages.
 - Changing the process = editing `docs/agent/` only.
 
 ---

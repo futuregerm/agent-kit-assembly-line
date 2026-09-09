@@ -1,6 +1,7 @@
 ---
 name: ship
 description: Run the pre-PR CI gate, push the branch, and open a pull request into a named base branch. Only pushes after CI passes. Use when N committed slices are ready to become a PR.
+disable-model-invocation: true
 ---
 
 # ship

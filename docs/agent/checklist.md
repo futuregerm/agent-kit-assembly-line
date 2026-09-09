@@ -54,6 +54,10 @@ Summary: <one or two lines>
 - [ ] No dead code, no debug leftovers.
 - [ ] Public contracts unchanged unless the slice intends it.
 
+### Docs
+
+- [ ] If the slice locked product/contract/identity meaning and the project defines a docs owner map, the owning `docs/` page was updated (or explicitly N/A in the summary). See docs-on-commit in `.agent/project_config.md`. P1 if missing when clearly required.
+
 ---
 
 ## Remediation loop

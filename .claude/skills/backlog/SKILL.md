@@ -1,6 +1,7 @@
 ---
 name: backlog
 description: Convert an intake summary into an ordered backlog of slices, each with a weight (light/full/write-security). Plan-only. Use after intake, before locking any slice.
+disable-model-invocation: true
 ---
 
 # backlog

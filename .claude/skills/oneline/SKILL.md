@@ -1,6 +1,7 @@
 ---
 name: oneline
 description: Answer a question in one clear sentence or short blurb, plain English, no jargon. Use for quick checks and layman explanations.
+disable-model-invocation: true
 ---
 
 # oneline

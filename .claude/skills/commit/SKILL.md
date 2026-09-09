@@ -1,6 +1,7 @@
 ---
 name: commit
 description: Prepare a single commit for the approved slice and wait for human go-ahead (auto-commit OFF). Use after review approves a slice.
+disable-model-invocation: true
 ---
 
 # commit

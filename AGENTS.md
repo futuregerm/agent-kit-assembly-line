@@ -26,9 +26,8 @@ discover/intake -> discover/backlog
 | What | Path |
 |------|------|
 | Process (SSOT) | `docs/agent/` |
-| Cursor commands | `.cursor/commands/{discover,deliver,ops}/` |
+| Skills (entrypoints, `/name`) | `.claude/skills/*/SKILL.md` — read by Cursor **and** Claude; `disable-model-invocation: true` = explicit `/`-trigger only |
 | Cursor session rule | `.cursor/rules/session.mdc` |
-| Claude skills | `.claude/skills/` |
 | Claude agents | `.claude/agents/` |
 | Claude hooks stub | `.claude/settings.json` |
 | CI templates | `scripts/pre-pr-check.TEMPLATE.*` |

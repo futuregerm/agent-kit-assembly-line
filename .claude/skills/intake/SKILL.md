@@ -1,6 +1,7 @@
 ---
 name: intake
 description: Turn raw business input (feature requests, notes, CSV) from .agent/_imports into a structured summary. Plan-only, never writes code. Use at the start of the discover track.
+disable-model-invocation: true
 ---
 
 # intake
