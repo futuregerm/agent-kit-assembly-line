@@ -11,14 +11,14 @@ Import the shared front door and constitution:
 
 ```text
 discover/intake -> discover/backlog
-    -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
+    -> deliver/lock -> deliver/run (design? -> implement -> prove -> review, fix <= 3)
     -> ops/commit   (x N slices)
     -> ops/ship
 ```
 
 ## Claude packaging
 
-- **Skills** (entry points): `.claude/skills/{intake,backlog,lock,run,commit,ship,oneline}/`
+- **Skills** (entry points): `.claude/skills/{intake,backlog,lock,run,commit,ship,oneline,plain}/`
 - **Agents** (specialists): `.claude/agents/{architect,implementer,reviewer}.md`
 - **Hooks** (deterministic gates): `.claude/settings.json`
 - **Session rule**: `.claude/rules/session.md`

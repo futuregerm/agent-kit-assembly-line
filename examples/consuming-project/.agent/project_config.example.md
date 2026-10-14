@@ -33,12 +33,22 @@ Filled-in example of `docs/agent/schemas/project_config.md` for a fictional proj
 - Auto-commit: OFF.
 - Never push unless the human says "push" or "open a PR".
 
+## Prove (per project)
+
+- Kinds in scope: values+ui
+- UI prove: auto
+- Local: boot with the project's local runner; app at http://localhost:3000; persona "admin" (no secrets in this file)
+- Designated test env: https://test.example.invalid — tracks `main`; confirm deploy SHA matches the merged commit, or ask "is this merge live?"
+- Never: production
+- Learned URLs: none yet
+
 ## Human checkpoint gates
 
 | Situation | Required action |
 |-----------|-----------------|
 | write-security slice before implement | Stop, show design, wait for approval |
 | Public API contract change | Stop, confirm intentional |
+| Values prove not runnable | Stop. Do not review or commit. |
 
 ## CI command (used by ship)
 

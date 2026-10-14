@@ -53,12 +53,24 @@ When a slice is review-approved and at commit prep (same commit when possible):
 - Auto-commit: OFF by default.
 - Never push unless the human says "push" or "open a PR".
 
+## Prove (per project)
+
+See `docs/agent/prove.md`. The kit ships the slots; the project fills them. No secrets (persona and how-to only).
+
+- Kinds in scope: `values` | `values+ui` | `none`
+- UI prove: `auto` | `skip`
+- Local: how to detect/boot, base URL, persona
+- Designated test env: URL, git ref it tracks, how to confirm deploy SHA (or "ask: is this merge live?")
+- Never: production
+- Learned URLs: labeled, dated; do not promote to the default test env unless the human says so
+
 ## Human checkpoint gates
 
 | Situation | Required action |
 |-----------|-----------------|
 | write-security slice before implement | Stop, show design, wait for approval |
 | Public API contract change | Stop, confirm intentional |
+| Values prove not runnable | Stop. Do not review or commit. |
 
 ## CI command (used by ship)
 
@@ -73,3 +85,4 @@ When a slice is review-approved and at commit prep (same commit when possible):
 - The kit never hardcodes these values; it reads them here.
 - `Limits` defaults (WIP=1, remediation=3) match the constitution — change per project only with intent.
 - **Domain docs on commit** is optional per project; when used, the `commit` stage and the review checklist enforce it. The owner map stays project-local (the kit ships the pattern, not the mappings).
+- **Prove** is required process (`docs/agent/prove.md`). Kinds, UI `auto|skip`, and env how-to stay project-local. Unverifiable deploy SHA means the remote env is unusable.

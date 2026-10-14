@@ -16,14 +16,15 @@ The orchestrator. Follow `docs/agent/README.md` (deliver stage) and `docs/agent/
    - `light` -> skip design; go to implement.
    - `full` -> spawn **architect** agent for a design doc in `.agent/designs/`, then implement.
    - `write-security` -> spawn **architect**, then **STOP for human approval** of the design. Do not implement until approved.
-3. Spawn **implementer** agent to build from the design/slice.
-4. Spawn **reviewer** agent; it returns a verdict per `docs/agent/checklist.md`.
-5. If `Approved? no`: spawn implementer to fix, then re-review. **At most 3 cycles.**
-6. After 3 unresolved cycles -> stop, summarize P0/P1, ask the human. Do not commit.
-7. On `Approved? yes` (no open P0/P1) -> hand off to `commit`.
+3. Spawn **implementer** agent to build from the design/slice. Prove is part of that exit (`docs/agent/prove.md`) — not a separate agent.
+4. If values prove is not runnable: status `blocked`, ask the human, **do not** spawn the reviewer. This does not burn a fix cycle.
+5. Spawn **reviewer** agent; it returns a verdict per `docs/agent/checklist.md`.
+6. If `Approved? no`: spawn implementer to fix, re-prove kinds that still apply, then re-review. **At most 3 cycles** (failed prove counts; deferred or skipped UI does not).
+7. After 3 unresolved cycles -> stop, summarize P0/P1, ask the human. Do not commit.
+8. On `Approved? yes` (no open P0/P1; if the kind is `values` or `both`, values is `pass`) -> hand off to `commit`. Explicit `ui: deferred` or `ui: skipped` is allowed.
 
 ## Rules
 
 - Never self-approve a `write-security` design.
-- Update `workflow_state.md` status as you move: `planning` -> `implementing` -> `reviewing`.
+- Update `workflow_state.md` status as you move: `planning` -> `implementing` -> `reviewing`. If values prove cannot run, status is `blocked` — do not move to `reviewing`.
 - Keep each agent scoped to its stage (least privilege).

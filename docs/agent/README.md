@@ -8,7 +8,7 @@ This is the **single source of truth** for the agent process. Every command, ski
 
 ```text
 discover/intake -> discover/backlog
-    -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
+    -> deliver/lock -> deliver/run (design? -> implement -> prove -> review, fix <= 3)
     -> ops/commit   (docs-on-commit, x N slices)
     -> ops/ship
 ```
@@ -23,7 +23,9 @@ flowchart TD
   weight -->|full_or_write_security| arch[architect]
   arch --> human{human_gate}
   human -->|approved_or_not_required| impl
-  impl --> rev[review]
+  impl --> prove[prove]
+  prove -->|values_blocked| stopProve[stop_and_ask]
+  prove -->|ok_or_ui_deferred| rev[review]
   rev -->|fix_le_3| impl
   rev -->|ok| commit[commit_docs]
   commit --> more{more_slices}
@@ -40,7 +42,7 @@ flowchart TD
 | Step | Input | Output | Notes |
 |------|-------|--------|-------|
 | `intake` | Raw business input (requests, notes, CSV) dropped in `.agent/_imports/` | Structured summary | Plan-only. Never writes code. |
-| `backlog` | Intake summary | Ordered slices in `.agent/slices/` | Each slice gets a **weight** (see `classes.md`). |
+| `backlog` | Intake summary | Ordered slices in `.agent/slices/` | Each slice gets a **weight** (see `classes.md`) and a **Prove** kind (see `prove.md`). |
 
 ### deliver
 
@@ -55,10 +57,11 @@ flowchart TD
 2. `light` -> go straight to **implement**.
 3. `full` / `write-security` -> **architect** produces a design doc in `.agent/designs/` first.
 4. `write-security` -> **STOP for human approval** of the design before implement.
-5. **implement** -> **review**.
-6. If review returns issues: **implement** fix. Repeat review. **At most 3 fix cycles.**
-7. After 3 unresolved cycles -> stop, summarize, ask the human.
-8. On approval (no open P0/P1) -> prepare commit.
+5. **implement**, then **prove** per `prove.md` (implementer exit — not a separate stage).
+6. If values prove is not runnable: status `blocked`, ask the human, **do not** review or commit. This does not burn a fix cycle.
+7. **review**. If review returns issues: **implement** fix, re-prove kinds that still apply, repeat review. **At most 3 fix cycles** (failed prove counts; deferred or skipped UI does not).
+8. After 3 unresolved cycles -> stop, summarize, ask the human.
+9. On approval (no open P0/P1; if the kind is `values` or `both`, values is `pass`) -> prepare commit. Explicit `ui: deferred` or `ui: skipped` does not block approval.
 
 ### ops
 
@@ -76,9 +79,9 @@ Each stage owns a **role** and must leave a **required artifact** before the nex
 | Role | Stage | Required exit | Human gate |
 |------|-------|---------------|------------|
 | Analyst | `intake` | Decision log: headline question, locked rules, explicit out-of-scope | Approve decisions -> then backlog |
-| Planner | `backlog` | Thin slices, each with Done when / Depends on / Weight / owning decision-log section | Approve card list -> then lock |
+| Planner | `backlog` | Thin slices, each with Done when / Depends on / Weight / Prove (`values` \| `ui` \| `both` \| `none` + steps) / owning decision-log section | Approve card list -> then lock |
 | Architect | `run` (`full` / `write-security`) | Design doc in `.agent/designs/` | write-security stop (mandatory) |
-| Dev | `run` -> implement | Code + tests for one locked slice | — |
+| Dev | `run` -> implement | Code + tests + prove evidence for one locked slice (see `prove.md`) | Values not runnable — stop |
 | Reviewer | `run` -> review | Verdict per `checklist.md`, judged against slice AC **and** decision log / owning docs | Fix <= 3 then human |
 | Documenter | `commit` | Owning `docs/` page updated when product/contract/identity changed (docs-on-commit, if the project uses it) | — |
 
@@ -97,9 +100,12 @@ The line should **guide**, not require memorized phrases. If the human jumps ahe
 | Backlog approval, locks anyway | Confirm a thin card list + human OK exists; else run backlog |
 | Design for `write-security` | Existing stop — show design, wait for approval |
 | Docs-on-commit | Reviewer flags P1 / `commit` catches it |
+| Values prove env (local down, remote SHA unverified) | Stop. Status `blocked`. Ask once how to reach an env that has this change. Do not review. |
+| UI prove env missing, or `UI prove: skip` | Do not refuse. Defer or skip UI, keep the click path, tell the human. See `prove.md`. |
+| Prove field missing on a card | Infer the kind per `prove.md` and write it on the card. Do not invent clicks. |
 | Wrong stage mid-chat | Session start reads `workflow_state`; reply with **Next 3 actions** and ask whether to continue or change course |
 
-**Default: guide and wait.** Hard-refuse only when proceeding would burn WIP=1 or skip a `write-security` gate. Intent-based approval counts — exact gate phrases are not required. Recovery lives inside `intake` / `lock` / `run`; do not add a separate coach agent or persona files.
+**Default: guide and wait.** Hard-refuse only when proceeding would burn WIP=1, skip a `write-security` gate, or review/commit without a required values prove. Intent-based approval counts — exact gate phrases are not required. Recovery lives inside `intake` / `lock` / `run`; do not add a separate coach agent or persona files.
 
 ---
 
@@ -108,6 +114,7 @@ The line should **guide**, not require memorized phrases. If the human jumps ahe
 - **WIP = 1.** One locked slice at a time.
 - **Remediation cap = 3**, then human.
 - **Weight gate** decides whether a design doc and human approval are required.
+- **Values prove** is required before review when the slice kind is `values` or `both`. UI prove is auto when in scope, and deferrable. See `prove.md`.
 - **Auto-commit OFF**; never push unless the human says "push" or "open a PR".
 - **Scope is binding.** Out-of-scope discoveries go to `.agent/follow-ups/`, not the current slice.
 
@@ -129,6 +136,7 @@ See `schemas/` for the required shape of both files.
 |------|------|
 | Process (this) | `docs/agent/` |
 | Slice weights + gates | `docs/agent/classes.md` |
+| Prove (values / UI) | `docs/agent/prove.md` |
 | Review checklist | `docs/agent/checklist.md` |
 | Design principles | `docs/agent/principles.md` |
 | State/config schemas | `docs/agent/schemas/` |

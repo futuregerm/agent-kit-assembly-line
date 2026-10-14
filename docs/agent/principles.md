@@ -12,7 +12,7 @@ The rules that keep the kit portable, safe, and maintainable. When a decision is
 
 4. **Progressive disclosure.** Front doors (`AGENTS.md`, `CLAUDE.md`) stay thin and link deeper. Load specs/checklists only when the stage needs them.
 
-5. **Fail closed on risk.** `write-security`, contract changes, and CI are hard gates (human approval / hooks), not polite reminders.
+5. **Fail closed on risk.** `write-security`, contract changes, CI, and **values prove** are hard gates (human approval / hooks / a live row), not polite reminders. UI prove is deferrable. See `prove.md`.
 
 6. **WIP = 1 / focus.** One locked slice. No parallel mystery work.
 

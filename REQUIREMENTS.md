@@ -18,7 +18,7 @@ One proven pipeline, named in industry-ish verbs, packaged so a fresh repo can a
 
 ```text
 discover/intake -> discover/backlog
-    -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
+    -> deliver/lock -> deliver/run (design? -> implement -> prove -> review, fix <= 3)
     -> ops/commit   (x N slices)
     -> ops/ship
 ```
@@ -56,7 +56,7 @@ discover/intake -> discover/backlog
 ## In scope (v0)
 
 - Requirements + `docs/agent/` constitution (README, classes, checklist, principles, schemas).
-- Claude packaging: skills (`intake, backlog, lock, run, commit, ship, oneline`), agents (`architect, implementer, reviewer`), session rule, settings stub.
+- Claude packaging: skills (`intake, backlog, lock, run, commit, ship, oneline, plain`), agents (`architect, implementer, reviewer`), session rule, settings stub.
 - Cursor adapters: `discover/deliver/ops` commands + session rule.
 - CI templates (placeholders) + hook stub.
 - `examples/consuming-project/` wire-up stub + root README/AGENTS/CLAUDE.

@@ -19,6 +19,15 @@ Ship the first slice of the login rework.
 | Design | .agent/designs/2026-01-01-login-form.md |
 | Status | implementing |
 
+## Prove this slice
+
+| Field | Value |
+|-------|-------|
+| values | n/a |
+| ui | n/a |
+| env | n/a |
+| seen | Not run yet — implement in progress |
+
 ## Decisions log
 
 | Date | Decision | Rationale |
@@ -38,5 +47,5 @@ Ship the first slice of the login rework.
 ## Next 3 actions
 
 1. Implement the login form component per design.
-2. Add validation tests.
+2. Add validation tests, then prove values against one real row (UI click path stays on the card if the screen env is down).
 3. Run review.

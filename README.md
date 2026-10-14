@@ -10,13 +10,13 @@ Agent workflows drift: commands multiply, limits diverge, and the "brain" lives 
 
 ```text
 discover/intake -> discover/backlog
-    -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
+    -> deliver/lock -> deliver/run (design? -> implement -> prove -> review, fix <= 3)
     -> ops/commit   (x N slices)
     -> ops/ship
 ```
 
 - **discover** — business input -> ordered backlog of weighted slices (no code).
-- **deliver** — lock one slice (WIP=1), then `run` the build pipeline (architect -> implement -> review, max 3 fix cycles).
+- **deliver** — lock one slice (WIP=1), then `run` the build pipeline (architect -> implement -> prove -> review, max 3 fix cycles).
 - **ship** — after N slices: CI gate -> push -> open PR.
 
 ## Layout
@@ -28,6 +28,7 @@ agent-kit-assembly-line/
 ├── docs/agent/              # THE process (single source of truth)
 │   ├── README.md            # the assembly line
 │   ├── classes.md           # slice weights: light | full | write-security
+│   ├── prove.md             # values / UI prove (implementer exit)
 │   ├── checklist.md         # review checklist + verdict format
 │   ├── principles.md        # design principles
 │   └── schemas/             # workflow_state + project_config templates

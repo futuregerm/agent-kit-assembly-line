@@ -10,7 +10,7 @@ A portable, project-agnostic agent delivery process: **discover -> deliver -> sh
 
 ```text
 discover/intake -> discover/backlog
-    -> deliver/lock -> deliver/run (design? -> implement -> review, fix <= 3)
+    -> deliver/lock -> deliver/run (design? -> implement -> prove -> review, fix <= 3)
     -> ops/commit   (x N slices)
     -> ops/ship
 ```

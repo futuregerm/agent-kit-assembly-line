@@ -26,6 +26,15 @@ Required sections below. Copy this shape into the project (see `examples/consumi
 | Design | <path in .agent/designs/, or n/a> |
 | Status | ready | planning | implementing | reviewing | blocked | done |
 
+## Prove this slice
+
+| Field | Value |
+|-------|-------|
+| values | pass \| fail \| blocked \| n/a |
+| ui | pass \| fail \| deferred \| skipped \| n/a |
+| env | <local / designated test env / learned URL, or n/a> |
+| seen | <one line: what was on screen or in the row, or why it did not run> |
+
 ## Decisions log
 
 | Date | Decision | Rationale |
@@ -47,10 +56,13 @@ Required sections below. Copy this shape into the project (see `examples/consumi
 3.
 ```
 
+When UI is `deferred`, one of the next actions must name that follow-up (the click path already on the card or in `.agent/follow-ups/`).
+
 ---
 
 ## Rules
 
 - **WIP=1:** at most one row in Active slice with a non-`done` status.
 - Status values are fixed: `ready | planning | implementing | reviewing | blocked | done`.
-- If `Status = blocked`, the blocker must appear in Open blockers.
+- If `Status = blocked`, the blocker must appear in Open blockers. Values prove not runnable is a blocker (`prove.md`).
+- Prove outcomes are distinct: unavailable (`blocked` / `deferred`) is not `skipped`, `pass`, or `fail`.
